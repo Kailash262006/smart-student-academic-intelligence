@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Gradient Header -->
+<div class="p-4 mb-4 rounded-4 text-white"
+     style="background: linear-gradient(135deg, #1E88E5, #43A047);">
+  <h2 class="fw-bold">👋 Welcome back, {{ user.name }}</h2>
+  <p class="mb-0">Here’s your academic intelligence summary</p>
+</div>
+
+<!-- KPI CARDS -->
+<div class="row g-4">
+
+  <!-- Weak Subjects -->
+  <div class="col-md-3">
+    <div class="card h-100 border-0 shadow-lg">
+      <div class="card-body">
+        <h6 class="text-danger fw-bold">🔴 Weak Subjects</h6>
+        <h2 class="fw-bold">{{ weak_count }}</h2>
+        <p class="text-muted">Need attention</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Focus Efficiency -->
+  <div class="col-md-3">
+    <div class="card h-100 border-0 shadow-lg">
+      <div class="card-body">
+        <h6 class="text-primary fw-bold">⏱ Focus Efficiency</h6>
+        <h2 class="fw-bold">{{ focus }}%</h2>
+        <p class="text-muted">Last 7 days</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Burnout Risk -->
+  <div class="col-md-3">
+    <div class="card h-100 border-0 shadow-lg">
+      <div class="card-body">
+        <h6 class="fw-bold">⚠ Burnout Risk</h6>
+        {% if burnout == "HIGH" %}
+          <span class="badge bg-danger fs-6">High</span>
+        {% elif burnout == "MEDIUM" %}
+          <span class="badge bg-warning fs-6 text-dark">Medium</span>
+        {% else %}
+          <span class="badge bg-success fs-6">Low</span>
+        {% endif %}
+        <p class="text-muted mt-2">Mental load status</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upcoming Exams -->
+  <div class="col-md-3">
+    <div class="card h-100 border-0 shadow-lg">
+      <div class="card-body">
+        <h6 class="text-warning fw-bold">📅 Upcoming Exams</h6>
+        <h2 class="fw-bold">{{ upcoming_exams }}</h2>
+        <p class="text-muted">Next 7 days</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CHARTS SECTION -->
+<div class="row mt-5 g-4">
+
+  <!-- Performance Chart -->
+  <div class="col-md-6">
+    <div class="card border-0 shadow-lg p-3">
+      <h5 class="fw-bold text-center">📊 Subject Performance</h5>
+      <canvas id="performanceChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Focus Chart -->
+  <div class="col-md-6">
+    <div class="card border-0 shadow-lg p-3">
+      <h5 class="fw-bold text-center">🎯 Focus vs Distraction</h5>
+      <canvas id="focusChart"></canvas>
+    </div>
+  </div>
+
+</div>
+
+<!-- INSIGHTS -->
+<div class="mt-5">
+  <h4 class="fw-bold mb-3">🧠 Smart Insights</h4>
+
+  <div class="row g-3">
+    {% for insight in insights %}
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <p class="mb-0">{{ insight }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="card p-4 mt-4">
+  <h5 class="fw-bold mb-3">🔥 Exam Priority Schedule</h5>
+
+  {% if priorities %}
+    <ul class="list-group">
+      {% for p in priorities %}
+        <li class="list-group-item d-flex justify-content-between">
+          <span>{{ p.subject }}</span>
+          <span class="badge bg-danger">
+            Priority: {{ p.priority_score }}
+          </span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="text-muted">No exams added yet</p>
+  {% endif %}
+</div>
+
+{% endblock %}
+<script>
+  const subjectLabels = {{ subject_labels | tojson }};
+  const subjectScores = {{ subject_scores | tojson }};
+  const focusPercent = {{ focus }};
+  const distractionPercent = 100 - focusPercent;
+</script>
+
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>

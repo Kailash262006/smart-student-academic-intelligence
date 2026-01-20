@@ -1,0 +1,11 @@
+body {
+  background: #F5F7FA;
+}
+
+.card {
+  border-radius: 16px;
+}
+
+input, select {
+  border-radius: 10px;
+}
