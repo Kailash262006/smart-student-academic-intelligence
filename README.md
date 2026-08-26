@@ -80,7 +80,7 @@ This reflects how many **real-world intelligent systems** are built.
 |-----|-----------|
 | Backend | Python (Flask) |
 | Frontend | HTML, CSS, JavaScript |
-| Database | SQLite |
+| Database | MySQL |
 | Analytics | Rule-based decision logic |
 | Architecture | Modular MVC-style design |
 
