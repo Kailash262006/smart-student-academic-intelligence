@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3 class="fw-bold mb-3">📘 Subjects</h3>
+
+<form method="post" class="card p-4 mb-4">
+  <input
+    name="subject_name"
+    class="form-control mb-3"
+    placeholder="Enter Subject Name"
+    required
+  >
+  <button class="btn btn-gradient">Add Subject</button>
+</form>
+
+<div class="card p-3">
+  <h5 class="fw-bold mb-2">Your Subjects</h5>
+
+  {% if subjects %}
+    <ul class="list-group">
+      {% for s in subjects %}
+        <li class="list-group-item">
+          {{ s.subject_name }} (ID: {{ s.subject_id }})
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="text-muted">No subjects added yet</p>
+  {% endif %}
+</div>
+
+{% endblock %}
